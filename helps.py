@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, HelpsWindow):
         HelpsWindow.setObjectName("HelpsWindow")
-        HelpsWindow.resize(823, 567)
+        HelpsWindow.setFixedSize(823, 567)
         HelpsWindow.setStyleSheet("border-image: url(:/newPrefix/helps final 2.JPG);")
         self.centralwidget = QtWidgets.QWidget(HelpsWindow)
         self.centralwidget.setObjectName("centralwidget")
