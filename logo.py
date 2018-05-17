@@ -27,7 +27,7 @@ class Ui_Logo(object):
         self.window.show()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(683, 437)
+        MainWindow.setFixedSize(683, 437)
         MainWindow.setStyleSheet("border-image: url(:/newPrefix/pantallainicio.JPG);")
     
         self.centralwidget = QtWidgets.QWidget(MainWindow)
