@@ -21,7 +21,6 @@ from pprint import pprint
 from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QPalette, QBrush, QImage
 from helps import Ui_MainWindow
-from progressbarfinal import Example
 import sys
 import serial
 
@@ -29,6 +28,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.lines import Line2D
 import numpy as np
 
 from PyQt5.QtWidgets import (
@@ -79,9 +79,6 @@ class QLCDCountDown(QLCDNumber):
 
         self.parent, self.timer, self.palete = parent, QTimer(self), QPalette()
         self.setGeometry(10, 10, 170, 70)
-        
-
-
 
 
         self.setNumDigits(5)
@@ -107,30 +104,6 @@ class QLCDCountDown(QLCDNumber):
         else:
 
             self.display("0" * 24)
-
-    def center(self):
-
-        # geometry of the main window
-
-        qr = self.frameGeometry()
-
-
-
-        # center point of screen
-
-        cp = QDesktopWidget().availableGeometry().center()
-
-
-
-        # move rectangle's center point to screen's center point
-
-        qr.moveCenter(cp)
-
-
-
-        # top left of rectangle becomes top left of window centering it
-
-        self.move(qr.topLeft())
 
 
 
@@ -215,15 +188,9 @@ class Ui_ProyectoHCI(object):
         self.ui.setupUi(self.window)
         #ProyectoHCI.hide()
         self.window.show()
-    def openW(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Example()
-        self.ui.setupUi(self.window)
-        #ProyectoHCI.hide()
-        self.window.show()
     def setupUi(self, ProyectoHCI):
         ProyectoHCI.setObjectName("ProyectoHCI")
-        ProyectoHCI.resize(807, 554)
+        ProyectoHCI.setFixedSize(807, 554)
         font = QtGui.QFont()
         font.setPointSize(60)
         ProyectoHCI.setFont(font)
@@ -232,7 +199,6 @@ class Ui_ProyectoHCI(object):
         # ------ Variables dentro de la Interfaz ------------------------------
         self.escritura = 0
         # ---------------------------------------------------------------------
-        
         self.temp=24
         self.tiempo=0
         self.timer = QBasicTimer()
@@ -261,7 +227,6 @@ class Ui_ProyectoHCI(object):
         self.Encendido.setText("")
         self.Encendido.setObjectName("Encendido")
         self.Encendido.clicked.connect(self.startchange)
-        self.Encendido.clicked.connect(self.openW)
         #self.Encendido.clicked.connect(self.doAction)
         #self.Encendido.clicked.connect(self.music)
         self.Pausa = QtWidgets.QPushButton(self.centralwidget)
@@ -276,6 +241,7 @@ class Ui_ProyectoHCI(object):
         self.nada.setText("")
         self.nada.setObjectName("nada")
         self.grafica = QtWidgets.QPushButton(self.centralwidget)
+        self.grafica.clicked.connect(self.on_click5)
         self.grafica.setGeometry(QtCore.QRect(560, 370, 221, 131))
         self.grafica.setStyleSheet("border-image: url(:/backgroud/graficacaliente.JPG);")
         self.grafica.setText("")
@@ -479,6 +445,7 @@ class Ui_ProyectoHCI(object):
         ProyectoHCI.setWindowTitle(_translate("ProyectoHCI", "OCCHIO VARMO"))
         self.label.setText(_translate("ProyectoHCI", "℃"))
         self.label_3.setText(_translate("ProyectoHCI", "  Ayuda"))
+        
     def on_click(self):
         self.temp= self.temp -1
         self.lcdNumber.display(self.temp)
@@ -499,8 +466,9 @@ class Ui_ProyectoHCI(object):
     def on_click4(self):
         self.tiempo= self.tiempo -1
         self.timenumber.display(self.tiempo)
-
-
+        
+    def on_click5(self):
+        plt.show()
         
 
     #def _update(self):
@@ -565,7 +533,46 @@ class Ui_ProyectoHCI(object):
         player.setMedia(content)
         player.play()
         
- 
+
+# ------ Grafica VELOCIDAD-TIEMPO ---------------------------------------------        
+class Scope(object):
+    def __init__(self, ax, maxt=2, dt=0.02):
+        self.ax = ax
+        self.ax.set_title("Occhio Varmo")
+        self.ax.set_xlabel("Tiempo")
+        self.ax.set_ylabel("Temperatura")
+        self.dt = dt
+        self.maxt = maxt
+        self.tdata = [0]
+        self.ydata = [0]
+        self.line = Line2D(self.tdata, self.ydata)
+        self.ax.add_line(self.line)
+        self.ax.set_ylim(-.1, 60)
+        self.ax.set_xlim(0, self.maxt)
+
+    # ------ Append data to Array and Erase -----------------------------------
+    def update(self, y):
+        lastt = self.tdata[-1]
+        if lastt > self.tdata[0] + self.maxt:  # reset the arrays
+            self.tdata = [self.tdata[-1]]
+            self.ydata = [self.ydata[-1]]
+            self.ax.set_xlim(self.tdata[0], self.tdata[0] + self.maxt)
+            self.ax.figure.canvas.draw()
+        data = ser.read()
+        t = self.tdata[-1] + self.dt
+        self.tdata.append(t)
+        self.ydata.append(int.from_bytes(data,'little'))
+        self.line.set_data(self.tdata, self.ydata)
+        return self.line,
+    # -------------------------------------------------------------------------
+
+fig, ax = plt.subplots()
+scope = Scope(ax)
+
+# pass a generator in "emitter" to produce data for the update func
+ani = animation.FuncAnimation(fig, scope.update, interval=10,
+                              blit=True)
+# -----------------------------------------------------------------------------
 
 
 import new2_rc
