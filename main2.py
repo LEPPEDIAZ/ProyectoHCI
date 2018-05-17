@@ -21,6 +21,7 @@ from pprint import pprint
 from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QPalette, QBrush, QImage
 from helps import Ui_MainWindow
+from progressbarfinal import Example
 import sys
 import serial
 
@@ -78,6 +79,9 @@ class QLCDCountDown(QLCDNumber):
 
         self.parent, self.timer, self.palete = parent, QTimer(self), QPalette()
         self.setGeometry(10, 10, 170, 70)
+        
+
+
 
 
         self.setNumDigits(5)
@@ -103,6 +107,30 @@ class QLCDCountDown(QLCDNumber):
         else:
 
             self.display("0" * 24)
+
+    def center(self):
+
+        # geometry of the main window
+
+        qr = self.frameGeometry()
+
+
+
+        # center point of screen
+
+        cp = QDesktopWidget().availableGeometry().center()
+
+
+
+        # move rectangle's center point to screen's center point
+
+        qr.moveCenter(cp)
+
+
+
+        # top left of rectangle becomes top left of window centering it
+
+        self.move(qr.topLeft())
 
 
 
@@ -187,6 +215,12 @@ class Ui_ProyectoHCI(object):
         self.ui.setupUi(self.window)
         #ProyectoHCI.hide()
         self.window.show()
+    def openW(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Example()
+        self.ui.setupUi(self.window)
+        #ProyectoHCI.hide()
+        self.window.show()
     def setupUi(self, ProyectoHCI):
         ProyectoHCI.setObjectName("ProyectoHCI")
         ProyectoHCI.resize(807, 554)
@@ -227,6 +261,7 @@ class Ui_ProyectoHCI(object):
         self.Encendido.setText("")
         self.Encendido.setObjectName("Encendido")
         self.Encendido.clicked.connect(self.startchange)
+        self.Encendido.clicked.connect(self.openW)
         #self.Encendido.clicked.connect(self.doAction)
         #self.Encendido.clicked.connect(self.music)
         self.Pausa = QtWidgets.QPushButton(self.centralwidget)

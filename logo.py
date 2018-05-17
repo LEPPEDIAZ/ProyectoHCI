@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from main2 import Ui_ProyectoHCI
 from helps import Ui_MainWindow
 from main2 import QLCDCountDown
+from progressbarfinal import Example
 from instrucciones import Ui_Main
 import PyQt5.QtMultimedia as M
 import sys
