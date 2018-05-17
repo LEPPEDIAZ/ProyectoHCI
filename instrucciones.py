@@ -20,7 +20,7 @@ class Ui_Main(object):
         self.window.show()
     def setupUi(self, MainWindow1):
         MainWindow1.setObjectName("MainWindow1")
-        MainWindow1.resize(1073, 665)
+        MainWindow1.setFixedSize(1073, 665)
         MainWindow1.setStyleSheet("border-image: url(:/newPrefix/empezar.JPG);")
         self.centralwidget = QtWidgets.QWidget(MainWindow1)
         self.centralwidget.setObjectName("centralwidget")
