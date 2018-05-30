@@ -502,6 +502,8 @@ class Ui_ProyectoHCI(object):
         self.label_2.raise_()
         self.pushButton_5.raise_()
         self.timenumber.raise_()
+        gui2 = QLCDCountDown(None, None, datetime.strptime('Jun 2020', '%b %Y'))
+        gui2.show()
         
     def nuevac(self):
         self.gradoinactivo.raise_()
