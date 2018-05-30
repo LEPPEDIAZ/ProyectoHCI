@@ -21,6 +21,7 @@ from pprint import pprint
 from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QPalette, QBrush, QImage
 from helps import Ui_MainWindow
+from progressbarfinal import Example
 import sys
 import serial
 
@@ -46,22 +47,22 @@ ser = 0
 dato = 0
 COUNT = 100
 
-"""
+
 # ------ Inicializar la variable ser ------------------------------------------
-def init_serial():
-    global ser
-    ser = serial.Serial()
-    ser.baudrate = 9600
-    ser.port = "COM4"
-    ser.bytesize = serial.EIGHTBITS
-    ser.parity = serial.PARITY_NONE
-    ser.stopbits = 1
-    ser.timeout = 0.25
-    ser.open()
+#def init_serial():
+#    global ser
+#    ser = serial.Serial()
+#    ser.baudrate = 9600
+#    ser.port = "COM4"
+#    ser.bytesize = serial.EIGHTBITS
+#    ser.parity = serial.PARITY_NONE
+#    ser.stopbits = 1
+#    ser.timeout = 0.25
+#    ser.open()
     
-init_serial()
+#init_serial()
 # -----------------------------------------------------------------------------
-"""
+
 
 class QLCDCountDown(QLCDNumber):
 
@@ -188,6 +189,11 @@ class Ui_ProyectoHCI(object):
         self.ui.setupUi(self.window)
         #ProyectoHCI.hide()
         self.window.show()
+    def openW(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Example()
+        self.ui.setupUi(self.window)
+        #ProyectoHCI.hide()
     def setupUi(self, ProyectoHCI):
         ProyectoHCI.setObjectName("ProyectoHCI")
         ProyectoHCI.setFixedSize(807, 554)
@@ -227,6 +233,7 @@ class Ui_ProyectoHCI(object):
         self.Encendido.setText("")
         self.Encendido.setObjectName("Encendido")
         self.Encendido.clicked.connect(self.startchange)
+        self.Encendido.clicked.connect(self.openW)
         #self.Encendido.clicked.connect(self.doAction)
         #self.Encendido.clicked.connect(self.music)
         self.Pausa = QtWidgets.QPushButton(self.centralwidget)
@@ -274,7 +281,7 @@ class Ui_ProyectoHCI(object):
         self.gradoactivo.setText("")
         self.gradoactivo.setObjectName("gradoactivo")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(294, 142, 201, 151))
+        self.pushButton_4.setGeometry(QtCore.QRect(290, 140, 211, 151))
         self.pushButton_4.setStyleSheet("border-image: url(:/backgroud/tiempoactivo.JPG);")
         self.pushButton_4.setText("")
         self.pushButton_4.setObjectName("pushButton_4")
@@ -402,6 +409,7 @@ class Ui_ProyectoHCI(object):
         self.oktemperatura_2.setStyleSheet("border-image: url(:/backgroud/ok.JPG);")
         self.oktemperatura_2.setText("")
         self.oktemperatura_2.setObjectName("oktemperatura_2")
+        self.oktemperatura_2.clicked.connect(self.temperaturalista)
         self.pushButton_2.raise_()
         self.debajotemperatura.raise_()
         self.abajotiempo.raise_()
@@ -479,15 +487,26 @@ class Ui_ProyectoHCI(object):
     def startchange(self):
         self.gradoinactivo.lower()
         self.tiemporun.lower()
-        self.temperaturacargando.raise_()
-        self.progressBar.raise_()
-        self.oktemperatura.raise_()
+        self.temperaturadeseada.raise_()
+        #self.progressBar.raise_()
+        #self.oktemperatura.raise_()
         self.oktemperatura_2.raise_()
         gui2 = QLCDCountDown(None, None, datetime.strptime('Jun 2020', '%b %Y'))
         gui2.show()
         
+    def temperaturalista(self):
+        self.gradoactivo.raise_()
+        self.pushButton_4.raise_()
+        self.lcdNumber.raise_()
+        self.label.raise_()
+        self.label_2.raise_()
+        self.pushButton_5.raise_()
+        self.timenumber.raise_()
+        
     def nuevac(self):
         self.gradoinactivo.raise_()
+        self.temperaturadeseada.lower()
+        self.oktemperatura_2.lower()
         self.tiemporun.raise_()
         self.temperaturacargando.lower()
         self.progressBar.lower()
@@ -558,10 +577,11 @@ class Scope(object):
             self.ydata = [self.ydata[-1]]
             self.ax.set_xlim(self.tdata[0], self.tdata[0] + self.maxt)
             self.ax.figure.canvas.draw()
-        data = ser.read()
+        #data = ser.read()
         t = self.tdata[-1] + self.dt
         self.tdata.append(t)
-        self.ydata.append(int.from_bytes(data,'little'))
+        #self.ydata.append(int.from_bytes(data,'little'))
+        self.ydata.append(self.temp)
         self.line.set_data(self.tdata, self.ydata)
         return self.line,
     # -------------------------------------------------------------------------
