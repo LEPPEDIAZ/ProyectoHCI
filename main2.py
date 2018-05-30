@@ -80,7 +80,7 @@ class QLCDCountDown(QLCDNumber):
 
         self.parent, self.timer, self.palete = parent, QTimer(self), QPalette()
         self.setGeometry(10, 10, 170, 70)
-
+        self.move(700,300)
 
         self.setNumDigits(5)
 
