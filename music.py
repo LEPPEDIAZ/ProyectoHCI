@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 17 12:21:06 2018
+Created on Wed May  2 13:44:36 2018
 
 @author: Ana Lucia Diaz Leppe
 """
 
-import sys
+import PyQt5.QtCore as C
+import PyQt5.QtMultimedia as M
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel
 from PyQt5.QtGui import QIcon
-import PyQt5.QtMultimedia as M
-import PyQt5.QtCore as C
- 
-class App(QMainWindow):
- 
+import sys
+
+class Music(QMainWindow):
     def __init__(self):
         super().__init__()
         self.music=C.QCoreApplication(sys.argv)
@@ -22,13 +21,6 @@ class App(QMainWindow):
         self.player = M.QMediaPlayer()
         self.player.setMedia(content)
         self.player.play()
-        self.title = 'PyQt absolute positioning - pythonspot.com'
-        self.left = 10
-        self.top = 10
-        self.width = 440
-        self.height = 280
-        self.initUI()
- 
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
@@ -47,8 +39,9 @@ class App(QMainWindow):
  
  
         self.show()
- 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = App()
+    ex = Music()
     sys.exit(app.exec_())
+    #self.player.stateChanged.connect( music.quit )
+#music.exec()

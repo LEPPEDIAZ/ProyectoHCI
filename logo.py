@@ -12,18 +12,24 @@ from helps import Ui_MainWindow
 from main2 import QLCDCountDown
 from progressbarfinal import Example
 from instrucciones import Ui_Main
+from music import Music
 import PyQt5.QtMultimedia as M
 import sys
 
 
-
 class Ui_Logo(object):
-    
+
     def openWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Main()
         self.ui.setupUi(self.window)
         MainWindow.hide()
+        self.window.show()
+    def openWindow2(self):
+        #self.window = QtWidgets.QMainWindow()
+        self.ui = Music()
+        #self.ui.setupUi(self.window)
+        #MainWindow.hide()
         self.window.show()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -38,6 +44,7 @@ class Ui_Logo(object):
         self.iniciarprograma.setText("")
         self.iniciarprograma.setObjectName("iniciarprograma")
         self.iniciarprograma.clicked.connect(self.openWindow)
+        #self.iniciarprograma.clicked.connect(self.openWindow2)
         #self.iniciarprograma.clicked.connect(self.music)
         MainWindow.setCentralWidget(self.centralwidget)
       
@@ -71,4 +78,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+   
 
+  

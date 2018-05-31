@@ -45,6 +45,7 @@ class Example(QWidget):
 #"background-color: rgb(170, 0, 0);")
         self.setWindowTitle('Cargando')
         self.move(385,520)
+        self.setFixedSize(260, 160) 
         self.show()
         
     def location_on_the_screen(self):    

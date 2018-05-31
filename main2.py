@@ -81,6 +81,8 @@ class QLCDCountDown(QLCDNumber):
         self.parent, self.timer, self.palete = parent, QTimer(self), QPalette()
         self.setGeometry(10, 10, 170, 70)
         self.move(700,300)
+        self.setFixedSize(170,70) 
+
 
         self.setNumDigits(5)
 
@@ -491,8 +493,8 @@ class Ui_ProyectoHCI(object):
         #self.progressBar.raise_()
         #self.oktemperatura.raise_()
         self.oktemperatura_2.raise_()
-        gui2 = QLCDCountDown(None, None, datetime.strptime('Jun 2020', '%b %Y'))
-        gui2.show()
+        #gui2 = QLCDCountDown(None, None, datetime.strptime('Jun 2020', '%b %Y'))
+       # gui2.show()
         
     def temperaturalista(self):
         self.gradoactivo.raise_()
