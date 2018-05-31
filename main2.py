@@ -494,7 +494,7 @@ class Ui_ProyectoHCI(object):
         #self.oktemperatura.raise_()
         self.oktemperatura_2.raise_()
         #gui2 = QLCDCountDown(None, None, datetime.strptime('Jun 2020', '%b %Y'))
-       # gui2.show()
+        gui2.show()
         
     def temperaturalista(self):
         self.gradoactivo.raise_()
@@ -607,6 +607,7 @@ if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
 
     app = QApplication([])
+    pro = QApplication(sys.argv)
 
     #gui1 = QLCDDateTime(None)
 

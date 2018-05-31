@@ -30,11 +30,14 @@ class Example(QWidget):
         self.pbar.setGeometry(30, 40, 200, 25)
         self.setStyleSheet("color: rgb(170, 0, 0);\n"
 "background-color: rgb(170, 0, 0);")
-    
+        #self.btn2 = QPushButton('presione X para continuar', self)
+        #self.btn2.setStyleSheet("background-color: rgb(255, 255, 255);")
+        #self.btn2.move(33, 115)
+        #self.btn2.lower()
 
-        self.btn = QPushButton('pulse para cargar temperatura', self)
+        self.btn = QPushButton('presione para cargar temperatura', self)
         self.btn.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.btn.move(40, 80)
+        self.btn.move(33, 80)
         self.btn.clicked.connect(self.doAction)
 
         self.timer = QBasicTimer()
@@ -63,8 +66,8 @@ class Example(QWidget):
         if self.step >= 100:
             
             self.timer.stop()
-            self.btn.setText('temperatura lista')
-            sys.exit(pro.exec_())
+            self.btn.setText('Presione X para continuar')
+            #self.btn2.raise_()
             return
             
         self.step = self.step + 1
